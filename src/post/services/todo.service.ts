@@ -3,7 +3,7 @@ import { TodoTypes } from '../interfaces/todo.interface';
 import { CreateTodoTypes, UpdateTodoTypes } from '../dto/todo.dto';
 import { todoApi } from '../../database/db';
 @Injectable()
-export class PostService {
+export class TodoService {
   private lastPostId = 0;
   private dataTodo: TodoTypes[] = todoApi;
 
@@ -12,34 +12,39 @@ export class PostService {
   }
 
   getPostById(id: number) {
-    const post = this.dataTodo.find((post: TodoTypes) => post.id === id);
+    const post = this.dataTodo.find((todo: TodoTypes) => todo.id === id);
     if (post) {
       return post;
+    } else {
+      throw new HttpException('Post not found!!!', HttpStatus.NOT_FOUND);
     }
-    throw new HttpException('Post not found!!!', HttpStatus.NOT_FOUND);
   }
 
-  createPost(post: CreateTodoTypes) {
+  createPost(todo: CreateTodoTypes) {
     const newPost = {
       id: ++this.lastPostId,
-      ...post,
+      ...todo,
     };
+    if (this.dataTodo.findIndex((todo) => todo.id !== newPost.id)) {
+      console.log('Trùng lặp id');
+      return;
+    }
     this.dataTodo.push(<TodoTypes>newPost);
     return newPost;
   }
 
-  replacePost(id: number, post: UpdateTodoTypes) {
+  replacePost(id: number, todo: UpdateTodoTypes) {
     const postIndex = this.dataTodo.findIndex(
-      (post: TodoTypes) => post.id === id,
+      (todo: TodoTypes) => todo.id === id,
     );
     if (postIndex > 1) {
-      this.dataTodo[postIndex] = <TodoTypes>post;
-      return post;
+      this.dataTodo[postIndex] = <TodoTypes>todo;
+      return todo;
     }
   }
   deletePost(id: number) {
     const postIndex = this.dataTodo.findIndex(
-      (post: TodoTypes) => post.id === id,
+      (todo: TodoTypes) => todo.id === id,
     );
     if (postIndex > -1) {
       this.dataTodo.slice(postIndex, 1);

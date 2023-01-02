@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 export class CreateTodoTypes {
-  description: string;
   title: string;
+  description: string;
 }
 
 export class UpdateTodoTypes {

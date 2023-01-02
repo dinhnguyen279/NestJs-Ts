@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { PostController } from './controllers/todo.controller';
-import { PostService } from './services/todo.service';
+import { TodoController } from './controllers/todo.controller';
+import { TodoService } from './services/todo.service';
 @Module({
-  controllers: [PostController],
-  providers: [PostService],
+  controllers: [TodoController],
+  providers: [TodoService],
 })
-export class PostModule {}
+export class TodoModule {}

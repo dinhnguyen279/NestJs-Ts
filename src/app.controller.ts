@@ -10,7 +10,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get()
+  @Get('/homepage')
   getHomePage(): string {
     return this.appService.getHomePage();
   }
